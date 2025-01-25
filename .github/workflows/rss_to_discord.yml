@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Script
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RSS_TWITTER_WEBHOOK_URL }}
+          DISCORD_RSS_TWITTER_WEBHOOK_URL: ${{ secrets.DISCORD_RSS_TWITTER_WEBHOOK_URL }}
         run: python script.py
 
       - name: Commit and Push Updated JSON
