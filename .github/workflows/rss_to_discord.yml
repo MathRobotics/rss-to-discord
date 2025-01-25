@@ -3,6 +3,7 @@ name: Fetch RSS and Post to Discord
 on:
   schedule:
     - cron: "*/10 * * * *"  # 10分ごとに実行
+  workflow_dispatch:
 
 jobs:
   fetch_and_post:
