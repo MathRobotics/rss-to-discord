@@ -104,7 +104,7 @@ def check_rss():
             for entry in reversed(feed.entries):  # 古いツイートから順に処理
                 guid = entry.get("guid", entry.link)
                 author = entry.get("author", "Unknown")  # 投稿者の名前
-                pub_date = entry.get("pubDate", "Unknown")  # ツイートの投稿日時
+                pub_date = entry.get("published", "Unknown")  # ツイートの投稿日時
 
                 if guid not in read_ids:
                     # ✅ リツイートを除外
