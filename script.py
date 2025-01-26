@@ -3,8 +3,12 @@ import json
 import requests
 import feedparser
 
-# RSSフィードURL（監視するTwitterアカウント）
-RSS_URL = "https://rsshub.app/twitter/user/bostondynamics"
+# アカウントリストファイル
+ACCOUNTS_FILE = "accounts.txt"
+
+# RSSHubのTwitterフィードURL
+RSS_BASE_URL = "https://rsshub.app/twitter/user/"
+
 # Webhook URL（GitHub Secrets から取得）
 WEBHOOK_URL = os.getenv("DISCORD_RSS_TWITTER_WEBHOOK_URL")
 print("WEBHOOK_URL:", WEBHOOK_URL)
