@@ -99,6 +99,12 @@ def check_rss():
 
             for entry in reversed(feed.entries):  # 古いツイートから順に処理
                 guid = entry.get("guid", entry.link)
+
+                # ✅ リツイートを除外
+                if "RT @" in entry.title or "Retweeted" in entry.title:
+                    print(f"🔁 リツイートをスキップ: {entry.title}")
+                    continue  # リツイートは無視
+                    
                 if guid not in read_ids:
                     message = f"📢 **{entry.title}**\n{entry.link}"
                     requests.post(WEBHOOK_URL, json={"content": message})
