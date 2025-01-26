@@ -17,14 +17,6 @@ print("WEBHOOK_URL:", WEBHOOK_URL)
 
 # JSONファイルのパス
 ID_FILE = "read_entries.json"
-
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36",
-    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0",
-]
-
-headers = {"User-Agent": random.choice(USER_AGENTS)}
 wait_time = 5
 
 def load_read_ids():
@@ -39,6 +31,18 @@ def save_read_ids(ids):
     """新しいIDリストをJSONファイルに保存"""
     with open(ID_FILE, "w") as file:
         json.dump(ids, file, indent=2)
+
+def is_retweet_or_reply(entry):
+    """エントリーがリツイート（RT）またはリプライ（Re）かどうかを判別"""
+    if "title" in entry:
+        title = entry.title.strip()
+        if title.startswith("RT ") or title.startswith("Re "):  # "RT " または "Re " で始まる
+            return True
+
+    if "description" in entry:
+        description = entry.description.strip()
+        if description.startswith("RT ") or description.startswith("Re "):  # "RT " または "Re " で始まる
+            return True
 
 def load_accounts():
     """accounts.txt から監視するTwitterアカウントを読み込む"""
@@ -99,12 +103,12 @@ def check_rss():
 
             for entry in reversed(feed.entries):  # 古いツイートから順に処理
                 guid = entry.get("guid", entry.link)
-
+                print(entry.title)
                 # ✅ リツイートを除外
-                if "RT @" in entry.title or "Retweeted" in entry.title:
-                    print(f"🔁 リツイートをスキップ: {entry.title}")
+                if is_retweet_or_reply(entry):
+                    print(f"🔁 リツイートまたはリプライをスキップ: {entry.title}")
                     continue  # リツイートは無視
-                    
+
                 if guid not in read_ids:
                     message = f"📢 **{entry.title}**\n{entry.link}"
                     requests.post(WEBHOOK_URL, json={"content": message})
