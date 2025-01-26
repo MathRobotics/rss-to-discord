@@ -63,7 +63,7 @@ def check_rss():
                 print(f"⚠️ {account} のRSSに記事がありません。")
                 continue
 
-            for entry in feed.entries:
+            for entry in reversed(feed.entries):
                 guid = entry.get("guid", entry.link)
                 if guid not in read_ids:
                     message = f"📢 **{entry.title}**\n{entry.link}"
