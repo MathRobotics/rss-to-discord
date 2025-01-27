@@ -105,7 +105,7 @@ def check_rss():
                 guid = entry.get("guid", entry.link)
                 author = entry.get("author", "Unknown")  # 投稿者の名前
                 pub_date = entry.get("published", "Unknown")  # ツイートの投稿日時
-
+                content = entry.get("description", "（ツイートの内容がありません）")
                 if guid not in read_ids:
                     # ✅ リツイートを除外
                     if is_retweet_or_reply(entry):
@@ -114,7 +114,7 @@ def check_rss():
                     message = (
                         f"👤 **{author}**\n"
                         f"🕒 {pub_date}\n"
-                        f"📢 **{entry.title}**\n"
+                        f"📝 {content}\n"
                         f"🔗 {entry.link}"
                     )
                     requests.post(WEBHOOK_URL, json={"content": message})
