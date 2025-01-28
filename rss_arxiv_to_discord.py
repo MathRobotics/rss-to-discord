@@ -2,6 +2,7 @@ import feedparser
 import json
 import requests
 import os
+import time
 
 # 設定
 ARXIV_RSS_URL = "https://arxiv.org/rss/cs.RO"  # 監視するカテゴリ
