@@ -1,0 +1,35 @@
+name: Fetch RSS arXiv and Post to Discord
+
+on:
+  schedule:
+    - cron: "30 /6 * * *"  # 毎時0分に実行
+  workflow_dispatch:
+
+jobs:
+  check_arxiv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v3
+
+      - name: Python環境のセットアップ
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: 依存関係のインストール
+        run: pip install requests feedparser
+
+      - name: arXiv監視スクリプトを実行
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python rss_arxiv_to_discord.py
+
+      - name: 結果を保存
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add posted_papers.json
+          git commit -m "Update posted papers" || exit 0
+          git push
