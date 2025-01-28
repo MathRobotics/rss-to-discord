@@ -34,8 +34,8 @@ def save_read_ids(ids):
 
 def clean_text(text):
     """ツイート本文をクリーンアップ"""
-    text = html.unescape(text)  # `&amp;` などの特殊文字をデコード
-    text = re.sub(r"<br\s*/?>", "\n", text)  # `<br />` を改行に変換
+    # text = html.unescape(text)  # `&amp;` などの特殊文字をデコード
+    text = re.sub(r"<br />", "\n", text)  # `<br />` を改行に変換
     # text = re.sub(r"https?://\S+", "", text)  # URLを削除
     # text = re.sub(r"#\S+", "", text)  # ハッシュタグを削除
     # text = text.strip()  # 前後の空白を削除
