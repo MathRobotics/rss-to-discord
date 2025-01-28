@@ -37,13 +37,18 @@ for entry in feed.entries:
             })
             posted_papers.append(paper_id)
 
-# Discordに投稿
-if new_papers:
-    content = "**New arXiv Papers Matching Keywords:**\n"
-    for paper in new_papers:
-        content += f"- [{paper['title']}]({paper['link']})\n"
+# Discordに1件ずつ投稿
+for paper in new_papers:
+    message = f"**New arXiv Paper:**\n📄 **{paper['title']}**\n🔗 {paper['link']}"
+    try:
+        response = requests.post(DISCORD_WEBHOOK_URL, json={"content": message})
+        response.raise_for_status()
+        print(f"Posted: {paper['title']}")
 
-    requests.post(DISCORD_WEBHOOK_URL, json={"content": content})
+        time.sleep(1)  # 連続リクエストを避けるために1秒待機
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error posting to Discord: {e}")
 
 # 更新された投稿済みリストを保存
 with open(JSON_FILE, "w") as f:
