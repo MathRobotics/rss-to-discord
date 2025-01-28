@@ -16,7 +16,7 @@ WEBHOOK_URL = os.getenv("DISCORD_RSS_TWITTER_WEBHOOK_URL")
 print("WEBHOOK_URL:", WEBHOOK_URL)
 
 # JSONファイルのパス
-ID_FILE = "read_entries.json"
+ID_FILE = "posted_twitter_post.json"
 wait_time = 5
 
 def load_read_ids():
