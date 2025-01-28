@@ -9,6 +9,8 @@ KEYWORDS = ["humanoid", "robot", "biped"]  # 検索キーワード
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_RSS_ARXIV_WEBHOOK_URL")  # GitHub Secretsから取得
 JSON_FILE = "posted_arxiv_papers.json"
 
+print("WEBHOOK_URL:", DISCORD_WEBHOOK_URL)
+
 # 既存データの読み込み
 try:
     with open(JSON_FILE, "r") as f:
