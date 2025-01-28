@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # GITHUB_TOKEN を明示的に指定
 
       - name: Python環境のセットアップ
         uses: actions/setup-python@v4
@@ -23,7 +25,7 @@ jobs:
 
       - name: arXiv監視スクリプトを実行
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_RSS_ARXIV_WEBHOOK_URL: ${{ secrets.DISCORD_RSS_ARXIV_WEBHOOK_URL }}
         run: python rss_arxiv_to_discord.py
 
       - name: 結果を保存
