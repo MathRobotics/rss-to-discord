@@ -32,6 +32,15 @@ def save_read_ids(ids):
     with open(ID_FILE, "w") as file:
         json.dump(ids, file, indent=2)
 
+def clean_text(text):
+    """ツイート本文をクリーンアップ"""
+    text = html.unescape(text)  # `&amp;` などの特殊文字をデコード
+    text = re.sub(r"<br\s*/?>", "\n", text)  # `<br />` を改行に変換
+    # text = re.sub(r"https?://\S+", "", text)  # URLを削除
+    # text = re.sub(r"#\S+", "", text)  # ハッシュタグを削除
+    # text = text.strip()  # 前後の空白を削除
+    return text
+
 def is_retweet_or_reply(entry):
     """エントリーがリツイート（RT）またはリプライ（Re）かどうかを判別"""
     if "title" in entry:
