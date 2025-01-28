@@ -6,7 +6,7 @@ import random
 import time
 
 # アカウントリストファイル
-ACCOUNTS_FILE = "accounts.txt"
+ACCOUNTS_FILE = "twitter_accounts.txt"
 
 # RSSHubのTwitterフィードURL
 RSS_BASE_URL = "https://rsshub.app/twitter/user/"
@@ -54,7 +54,7 @@ def is_retweet_or_reply(entry):
             return True
 
 def load_accounts():
-    """accounts.txt から監視するTwitterアカウントを読み込む"""
+    """twitter_accounts.txt から監視するTwitterアカウントを読み込む"""
     try:
         with open(ACCOUNTS_FILE, "r") as file:
             return [line.strip() for line in file if line.strip()]
@@ -118,7 +118,7 @@ def check_rss():
                 if guid not in read_ids:
                     # ✅ リツイートを除外
                     if is_retweet_or_reply(entry):
-                        print(f"🔁 リツイートまたはリプライをスキップ: {entry.title}")
+                        # print(f"🔁 リツイートまたはリプライをスキップ: {entry.title}")
                         continue  # リツイートは無視
                     message = (
                         f"👤 **{author}**\n"

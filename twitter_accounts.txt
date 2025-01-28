@@ -3,6 +3,10 @@ UnitreeRobotics
 anybotics
 pfrobotics
 tier_iv_japan
+mujin
+synchrobo
+GITAI_HQ
+rt_corp
 
 OpenRoboticsOrg
 rosorg
