@@ -2,7 +2,7 @@ name: Fetch RSS arXiv and Post to Discord
 
 on:
   schedule:
-    - cron: "30 /6 * * *"  # 毎時0分に実行
+    - cron: "30 */6 * * *"  # 毎時0分に実行
   workflow_dispatch:
 
 jobs:
