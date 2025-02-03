@@ -12,7 +12,7 @@ JSON_FILE = "posted_arxiv_papers.json"
 
 MAX_EMBEDS_PER_POST = 10  # Discordの1回の投稿で許可される `embeds` の最大数
 MAX_TITLE_LENGTH = 256
-MAX_DESCRIPTION_LENGTH = 4000
+MAX_DESCRIPTION_LENGTH = 200
 POST_DELAY = 2  # Discordへの投稿間隔（秒）
 
 # 既存データの読み込み
@@ -27,8 +27,8 @@ feed = feedparser.parse(ARXIV_RSS_URL)
 new_papers = []
 
 for entry in feed.entries:
-    title = entry.title
-    summary = entry.summary[:200] + "..."  # 要約（長すぎる場合は200文字にカット）
+    title = entry.title[:MAX_TITLE_LENGTH]
+    summary = entry.summary[:MAX_DESCRIPTION_LENGTH] + "..."  # 要約（長すぎる場合は200文字にカット）
     link = entry.link
     paper_id = entry.id
 
@@ -36,6 +36,7 @@ for entry in feed.entries:
     if any(keyword.lower() in title.lower() or keyword.lower() in summary.lower() for keyword in KEYWORDS):
         if paper_id not in posted_papers:  # 重複防止
             new_papers.append({
+                "id": paper_id,
                 "title": title,
                 "link": link,
                 "summary": summary
