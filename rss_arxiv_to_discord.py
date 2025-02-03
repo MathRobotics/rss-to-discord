@@ -12,7 +12,7 @@ JSON_FILE = "posted_arxiv_papers.json"
 
 MAX_EMBEDS_PER_POST = 10  # Discordの1回の投稿で許可される `embeds` の最大数
 MAX_TITLE_LENGTH = 256
-MAX_DESCRIPTION_LENGTH = 200
+MAX_DESCRIPTION_LENGTH = 600
 POST_DELAY = 2  # Discordへの投稿間隔（秒）
 
 # 既存データの読み込み
@@ -28,7 +28,7 @@ new_papers = []
 
 for entry in feed.entries:
     title = entry.title[:MAX_TITLE_LENGTH]
-    summary = entry.summary[:MAX_DESCRIPTION_LENGTH] + "..."  # 要約（長すぎる場合は200文字にカット）
+    summary = entry.summary[:MAX_DESCRIPTION_LENGTH] + "..." # 要約を切り捨て
     link = entry.link
     paper_id = entry.id
 
