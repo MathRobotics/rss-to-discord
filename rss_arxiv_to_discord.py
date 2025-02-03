@@ -9,6 +9,9 @@ KEYWORDS = ["humanoid", "robot", "biped"]  # 検索キーワード
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_RSS_ARXIV_WEBHOOK_URL")  # GitHub Secretsから取得
 JSON_FILE = "posted_arxiv_papers.json"
 
+MAX_TITLE_LENGTH = 256
+MAX_DESCRIPTION_LENGTH = 4000
+
 # 既存データの読み込み
 try:
     with open(JSON_FILE, "r") as f:
@@ -47,6 +50,10 @@ for paper in new_papers:
         "color": 3447003  # Discordの青系カラー（オプション）
     })
 
+for embed in embeds:
+    embed["title"] = embed["title"][:MAX_TITLE_LENGTH]  # 256文字制限
+    # embed["description"] = embed["description"][:MAX_DESCRIPTION_LENGTH]  # 4000文字制限
+
 payload = {
     "content": "**New arXiv Papers Matching Keywords:**",
     "embeds": embeds
@@ -55,11 +62,9 @@ payload = {
 if not embeds:
     print("No new papers found.")
     exit()
-
 try:
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
     response.raise_for_status()
-    print(f"Posted: {payload}")  # ログ出力
     # 更新された投稿済みリストを保存
     with open(JSON_FILE, "w") as f:
         json.dump(posted_papers, f, indent=4)
