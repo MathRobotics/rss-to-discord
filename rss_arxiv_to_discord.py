@@ -52,6 +52,10 @@ payload = {
     "embeds": embeds
 }
 
+if not embeds:
+    print("No new papers found.")
+    exit()
+
 try:
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
     response.raise_for_status()
