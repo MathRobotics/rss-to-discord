@@ -2,8 +2,8 @@ import os
 import json
 import requests
 import feedparser
-import random
 import time
+import re
 
 # アカウントリストファイル
 ACCOUNTS_FILE = "twitter_accounts.txt"
@@ -17,7 +17,7 @@ print("WEBHOOK_URL:", WEBHOOK_URL)
 
 # JSONファイルのパス
 ID_FILE = "posted_twitter_post.json"
-wait_time = 5
+wait_time = 10
 
 def load_read_ids():
     """JSONファイルから既読のIDリストを読み込む"""
@@ -35,10 +35,12 @@ def save_read_ids(ids):
 def clean_text(text):
     """ツイート本文をクリーンアップ"""
     # text = html.unescape(text)  # `&amp;` などの特殊文字をデコード
-    text = re.sub(r"<br />", "\n", text)  # `<br />` を改行に変換
+    # text = re.sub(r"<br />", "\n", text)  # `<br />` を改行に変換
     # text = re.sub(r"https?://\S+", "", text)  # URLを削除
     # text = re.sub(r"#\S+", "", text)  # ハッシュタグを削除
     # text = text.strip()  # 前後の空白を削除
+    text = re.sub(r'<.*?>', '', text)
+    text = re.sub(r'https?://pbs.twimg.com/.*?(\s|$)', '', text)
     return text
 
 def is_retweet_or_reply(entry):
@@ -126,6 +128,7 @@ def check_rss():
                         f"📝 {content}\n"
                         f"🔗 {entry.link}"
                     )
+                    print(f"📢 新しいツイートをDiscordに投稿: {guid}")
                     requests.post(WEBHOOK_URL, json={"content": message})
                     new_ids.append(guid)
 
