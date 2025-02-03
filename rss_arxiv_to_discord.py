@@ -60,10 +60,9 @@ try:
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
     response.raise_for_status()
     print(f"Posted: {payload}")  # ログ出力
+    # 更新された投稿済みリストを保存
+    with open(JSON_FILE, "w") as f:
+        json.dump(posted_papers, f, indent=4)
 
 except requests.exceptions.RequestException as e:
     print(f"Error posting to Discord: {e}")
-
-# 更新された投稿済みリストを保存
-with open(JSON_FILE, "w") as f:
-    json.dump(posted_papers, f, indent=4)
