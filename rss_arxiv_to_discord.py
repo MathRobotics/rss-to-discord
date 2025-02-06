@@ -12,7 +12,7 @@ JSON_FILE = "posted_arxiv_papers.json"
 
 MAX_EMBEDS_PER_POST = 10  # Discordの1回の投稿で許可される `embeds` の最大数
 MAX_TITLE_LENGTH = 256
-MAX_DESCRIPTION_LENGTH = 600
+MAX_DESCRIPTION_LENGTH = 200
 POST_DELAY = 2  # Discordへの投稿間隔（秒）
 
 # 既存データの読み込み
